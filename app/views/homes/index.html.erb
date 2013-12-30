@@ -1,0 +1,84 @@
+<h1>Listing homes</h1>
+
+<table width=100%>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @homes.each do |home| %>
+      <tr>
+        <td><%=home.id %></td>
+        <td><%=home.name %></td>
+        <td><%=home.age %></td>
+        <td><%=link_to 'Show', home %> &nbsp; <%=link_to 'Edit', edit_home_path(home) %> &nbsp;<%=link_to 'Destroy', home, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<script type="text/template" id="search_template">
+  <label>Search</label>
+  <input type="text" id="search_input" />
+  <input type="button" id="search_button" value="Search" />
+</script>
+
+<script type='text/template' id="add_new_template">
+  <label for="name_input">Name</label>
+  <input type="text" id="name_input"/>
+  <label for="age_input">Age</label>
+  <input type="text" id="age_input"/>
+  <input type="button" id="add_new_btn" value="Add new"/>
+</script>
+
+<div id="search_container"></div>
+
+<div id='add_new_container'></div>
+
+<script type="text/javascript">
+    SearchView = Backbone.View.extend({
+        initialize: function(){
+            console.log('Init Search View');
+            this.render();
+        },
+        render: function(){
+            // Compile the template using underscore
+            var template = _.template( $("#search_template").html(), {} );
+            // Load the compiled HTML into the Backbone "el"
+            this.$el.html( template );
+        }
+    });
+
+    var search_view = new SearchView({ el: $("#search_container") });
+</script>
+
+<script type="text/javascript">
+    AddNewView = Backbone.View.extend({
+        initialize: function(){
+            console.log('Init Add New View');
+            this.render();
+        },
+        render: function(){
+            // Compile the template using underscore
+            var template = _.template( $("#add_new_template").html(), {} );
+            // Load the compiled HTML into the Backbone "el"
+            this.$el.html( template );
+        }
+    });
+
+    var add_new_view = new AddNewView({ el: $("#add_new_container") });
+</script>
+
+<%= link_to 'New Home', new_home_path %>
+
+<!--<% content_for :javascript_includes do %>-->
+    <!--<%= javascript_include_tag 'HelloBackBone.js' %>-->
+<!--<% end %>-->
+<%= javascript_include_tag 'HelloBackBone.js' %>
